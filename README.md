@@ -109,7 +109,28 @@ Through this project I learned:
 
 This repository includes:
 
-* SQL queries used for the analysis
+* Readme
 * ER diagram
-* Analysis
+* Sales_analysis_report
 
+## Example JOIN Query
+
+```sql
+
+WITH MonthlySales AS (
+    SELECT 
+        DATE_FORMAT(o.order_purchase_timestamp, '%Y-%m') AS order_month,
+        ROUND(SUM(p.payment_value), 2) AS total_revenue
+    FROM orders o
+    JOIN payments p ON o.order_id = p.order_id
+    WHERE o.order_status = 'delivered'
+    GROUP BY 1
+)
+SELECT 
+    order_month,
+    total_revenue,
+    LAG(total_revenue) OVER (ORDER BY order_month) AS prev_month_revenue,
+    ROUND(((total_revenue - LAG(total_revenue) OVER (ORDER BY order_month)) / 
+           LAG(total_revenue) OVER (ORDER BY order_month) * 100), 2) AS mom_growth_pct
+FROM MonthlySales;
+```
