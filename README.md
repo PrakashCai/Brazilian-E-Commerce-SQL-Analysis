@@ -134,3 +134,10 @@ SELECT
            LAG(total_revenue) OVER (ORDER BY order_month) * 100), 2) AS mom_growth_pct
 FROM MonthlySales;
 ```
+
+## License
+
+This project uses the **Olist Brazilian E-Commerce Dataset** available on Kaggle.  
+The dataset is provided for public use under its respective license on Kaggle.
+
+Dataset source: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
